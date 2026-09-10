@@ -1,0 +1,11 @@
+node_modules
+dist
+.env.local
+*.local
+
+# Emitted by `tsc -b`, since tsconfig.node.json is a composite project with noEmit:false.
+# vite.config.js especially must never be committed: Vite resolves vite.config.js BEFORE
+# vite.config.ts, so a stale compiled copy silently wins over the source.
+*.tsbuildinfo
+vite.config.js
+vite.config.d.ts
