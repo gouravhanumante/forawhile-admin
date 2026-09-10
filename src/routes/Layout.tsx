@@ -9,6 +9,7 @@ const links = [
   { to: '/reports', label: 'Reports' },
   { to: '/users', label: 'Users' },
   { to: '/escrow', label: 'Escrow' },
+  { to: '/refunds', label: 'Refunds' },
   { to: '/payouts', label: 'Payouts' },
   { to: '/broadcast', label: 'Broadcast' },
   { to: '/notices', label: 'Notices' },

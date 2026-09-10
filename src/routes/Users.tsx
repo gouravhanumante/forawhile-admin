@@ -127,6 +127,25 @@ export function Users() {
             {user.reportCount} report(s) · {user.blockCount} block(s)
             {user.companionProfile && ` · verified: ${user.companionProfile.isVerified} · live: ${user.companionProfile.isLive}`}
           </p>
+          {user.photos.length > 0 && (
+            <div style={{ marginTop: 12, display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+              {user.photos.map((photo) => (
+                <a href={photo.url} target="_blank" rel="noreferrer" key={photo.id}>
+                  <img
+                    src={photo.url}
+                    alt=""
+                    style={{
+                      width: 96,
+                      height: 96,
+                      objectFit: 'cover',
+                      borderRadius: 8,
+                      border: photo.isPrimary ? '2px solid var(--accent, #6750a4)' : '1px solid #ccc',
+                    }}
+                  />
+                </a>
+              ))}
+            </div>
+          )}
           <div className="field" style={{ marginTop: 12 }}>
             <label htmlFor="reason">Reason (required)</label>
             <input id="reason" value={reason} onChange={(e) => setReason(e.target.value)} />

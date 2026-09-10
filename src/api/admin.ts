@@ -24,6 +24,7 @@ export interface SafeUser {
     cancellationStrikes: number;
   } | null;
   customerProfile: { nickname: string; city: string } | null;
+  photos: { id: string; url: string; isPrimary: boolean }[];
   reportCount: number;
   blockCount: number;
 }
@@ -48,6 +49,21 @@ export interface PendingEscrowRow {
   scheduledStart: string;
   customerNickname: string | null;
   companionNickname: string | null;
+}
+
+export interface StuckRefundRow {
+  paymentId: string;
+  bookingId: string;
+  packageTitle: string;
+  scheduledStart: string;
+  bookingStatus: string;
+  amountPaise: number;
+  state: 'NEEDS_ACTION' | 'PENDING_CONFIRMATION';
+  updatedAt: string;
+  customerNickname: string | null;
+  customerPhone: string;
+  companionNickname: string | null;
+  companionPhone: string;
 }
 
 export interface BookingCoordinationEvidence {
@@ -87,6 +103,9 @@ export const adminApi = {
     apiClient.post(`/admin/users/${id}/unsuspend`, { reason }),
   auditLogs: (limit = 50): Promise<AuditLogEntry[]> => apiClient.get(`/admin/audit-logs?limit=${limit}`),
   pendingEscrow: (): Promise<PendingEscrowRow[]> => apiClient.get('/admin/escrow/pending'),
+  stuckRefunds: (): Promise<StuckRefundRow[]> => apiClient.get('/admin/refunds/stuck'),
+  resolveStuckRefund: (bookingId: string, note?: string): Promise<unknown> =>
+    apiClient.post(`/admin/refunds/${bookingId}/resolve`, { note }),
   bookingEvidence: (reportId: string): Promise<BookingCoordinationEvidence> =>
     apiClient.get(`/admin/reports/${reportId}/booking-evidence`),
 };
