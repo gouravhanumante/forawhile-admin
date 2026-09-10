@@ -1,0 +1,26 @@
+name: CI
+
+# Typecheck + build check, separate from pages.yml's deploy. Runs on every push (so `main` gets a
+# clear pass/fail before/alongside deploy) and on pull requests into main, for anyone branching
+# instead of pushing straight to main.
+on:
+  push:
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    name: Typecheck + build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - name: Install
+        # Exactly what Render/pages.yml runs. A clean install catches dependencies that only
+        # resolve locally because something else pulled them into node_modules.
+        run: npm ci
+      - name: Typecheck + build
+        run: npm run build
