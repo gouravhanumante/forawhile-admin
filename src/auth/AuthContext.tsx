@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
 import { apiClient } from '../api/client';
 import { authApi, type AuthTokensResponse } from '../api/auth';
 
@@ -27,6 +27,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const value = useMemo(() => ({ isAuthenticated, login, logout }), [isAuthenticated, login, logout]);
+
+  // An expired session is discovered by whichever request happened to fail, so the sign-out has
+  // to come from the API client rather than from any one screen.
+  useEffect(() => {
+    apiClient.onSessionExpired(() => setIsAuthenticated(false));
+    return () => apiClient.onSessionExpired(null);
+  }, []);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

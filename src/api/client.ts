@@ -58,6 +58,7 @@ function writeTokens(tokens: StoredTokens | null): void {
 
 // Concurrent 401s must not each fire their own refresh call, so every retry waits on the same one.
 let refreshInFlight: Promise<boolean> | null = null;
+let sessionExpiredListener: (() => void) | null = null;
 
 async function refreshTokens(): Promise<boolean> {
   const tokens = readTokens();
@@ -95,6 +96,7 @@ async function request<T>(path: string, init: RequestInit = {}, allowRetry = tru
 
   const envelope = (await res.json()) as ApiEnvelope<T>;
   if (!res.ok || !envelope.success) {
+    if (res.status === 401) sessionExpiredListener?.();
     throw new ApiError(envelope.error?.code ?? 'UNKNOWN', envelope.error?.message ?? 'Something went wrong.');
   }
   return envelope.data as T;
@@ -112,4 +114,5 @@ export const apiClient = {
   isAuthenticated: (): boolean => readTokens() !== null,
   environment: (): AdminEnvironment => currentEnvironment(),
   setEnvironment: (environment: AdminEnvironment): void => localStorage.setItem(ENVIRONMENT_KEY, environment),
+  onSessionExpired: (listener: (() => void) | null): void => { sessionExpiredListener = listener; },
 };
