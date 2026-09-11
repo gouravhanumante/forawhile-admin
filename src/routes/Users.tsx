@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { adminApi, type SafeUser } from '../api/admin';
+import { adminApi, type AdminBookingSummary, type BookingInvestigation, type SafeUser } from '../api/admin';
 import { ApiError } from '../api/client';
+import { BookingInvestigationPanel } from '../components/BookingInvestigationPanel';
 
 export function Users() {
   const [searchParams] = useSearchParams();
@@ -12,13 +13,22 @@ export function Users() {
   const [error, setError] = useState<string | null>(null);
   const [reason, setReason] = useState('');
   const [isBusy, setIsBusy] = useState(false);
+  const [bookings, setBookings] = useState<AdminBookingSummary[]>([]);
+  const [investigation, setInvestigation] = useState<BookingInvestigation | null>(null);
 
   async function lookup(targetId: string) {
     if (!targetId.trim()) return;
     setError(null);
     setUser(null);
     try {
-      setUser(await adminApi.getUser(targetId.trim()));
+      const loadedUser = await adminApi.getUser(targetId.trim());
+      setUser(loadedUser);
+      // Outings are supplementary: an API that cannot serve them yet must not break the lookup.
+      try {
+        setBookings(await adminApi.userBookings(loadedUser.id));
+      } catch {
+        setBookings([]);
+      }
     } catch (err) {
       setError(err instanceof ApiError ? err.message : 'Could not find that user.');
     }
@@ -58,6 +68,12 @@ export function Users() {
     }
   }
 
+  async function openInvestigation(bookingId: string) {
+    setError(null);
+    try { setInvestigation(await adminApi.bookingInvestigation(bookingId)); }
+    catch (err) { setError(err instanceof ApiError ? err.message : 'Could not load outing evidence.'); }
+  }
+
   return (
     <div>
       <h2>Users</h2>
@@ -84,7 +100,7 @@ export function Users() {
               key={row.id}
               style={{ cursor: 'pointer' }}
               onClick={() => {
-                setUser(row);
+                void lookup(row.id);
                 setResults(null);
               }}
             >
@@ -157,6 +173,12 @@ export function Users() {
           >
             {user.status === 'SUSPENDED' ? 'Unsuspend' : 'Suspend'}
           </button>
+          <h3 style={{ marginTop: 20 }}>Outings</h3>
+          {bookings.length === 0 ? <p className="muted">No outings found.</p> : bookings.map((booking) => <div className="card" key={booking.id} style={{ marginTop: 8 }}>
+            <strong>{booking.packageTitle}</strong><div className="muted">{new Date(booking.scheduledStart).toLocaleString()} · {booking.status.replaceAll('_', ' ')} · {booking.meetingArea}</div>
+            <button className="btn btn-secondary" style={{ marginTop: 8 }} onClick={() => void openInvestigation(booking.id)}>View outing</button>
+          </div>)}
+          {investigation && <BookingInvestigationPanel evidence={investigation} />}
         </div>
       )}
     </div>

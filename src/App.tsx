@@ -8,13 +8,13 @@ import { CustomerVerificationQueue } from './routes/CustomerVerificationQueue';
 import { ReportsQueue } from './routes/ReportsQueue';
 import { Users } from './routes/Users';
 import { EscrowQueue } from './routes/EscrowQueue';
-import { StuckRefunds } from './routes/StuckRefunds';
 import { Payouts } from './routes/Payouts';
 import { Broadcast } from './routes/Broadcast';
 import { Notices } from './routes/Notices';
 import { AuditLog } from './routes/AuditLog';
 import { Catalog } from './routes/Catalog';
 import { Settings } from './routes/Settings';
+import { NoShowClaims } from './routes/NoShowClaims';
 
 export default function App() {
   return (
@@ -26,9 +26,9 @@ export default function App() {
           <Route path="/verifications" element={<VerificationQueue />} />
           <Route path="/customer-verifications" element={<CustomerVerificationQueue />} />
           <Route path="/reports" element={<ReportsQueue />} />
+          <Route path="/no-show-claims" element={<NoShowClaims />} />
           <Route path="/users" element={<Users />} />
           <Route path="/escrow" element={<EscrowQueue />} />
-          <Route path="/refunds" element={<StuckRefunds />} />
           <Route path="/payouts" element={<Payouts />} />
           <Route path="/broadcast" element={<Broadcast />} />
           <Route path="/notices" element={<Notices />} />
