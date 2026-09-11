@@ -15,6 +15,7 @@ import { AuditLog } from './routes/AuditLog';
 import { Catalog } from './routes/Catalog';
 import { Settings } from './routes/Settings';
 import { NoShowClaims } from './routes/NoShowClaims';
+import { DesignSystem } from './routes/DesignSystem';
 
 export default function App() {
   return (
@@ -35,6 +36,7 @@ export default function App() {
           <Route path="/catalog" element={<Catalog />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/audit-log" element={<AuditLog />} />
+          <Route path="/design-system" element={<DesignSystem />} />
         </Route>
       </Route>
     </Routes>

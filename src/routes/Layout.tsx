@@ -29,6 +29,7 @@ const sections: Array<{ label: string; links: Array<{ to: string; label: string;
       { to: '/catalog', label: 'Catalog' },
       { to: '/settings', label: 'Business settings' },
       { to: '/audit-log', label: 'Audit log' },
+      { to: '/design-system', label: 'Design system' },
     ],
   },
 ];
