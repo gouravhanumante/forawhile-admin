@@ -75,8 +75,15 @@ export function Users() {
   }
 
   return (
-    <div>
-      <h2>Users</h2>
+    <div className="queue-page">
+      <div className="page-heading page-heading-compact">
+        <div>
+          <span className="eyebrow">Investigation workspace</span>
+          <h2>Users</h2>
+          <p className="page-lede">Search for an account, then review identity, risk, and outing history.</p>
+        </div>
+      </div>
+      <div className="search-panel">
       <div className="field" style={{ maxWidth: 360 }}>
         <label htmlFor="query">Search by phone, nickname, or email</label>
         <input
@@ -90,13 +97,14 @@ export function Users() {
       <button className="btn btn-secondary" disabled={query.trim().length < 2} onClick={() => void search()}>
         Search
       </button>
+      </div>
 
       {results && results.length === 0 && <p className="muted" style={{ marginTop: 12 }}>No matches.</p>}
       {results && results.length > 0 && (
         <div style={{ marginTop: 12 }}>
           {results.map((row) => (
             <div
-              className="card"
+              className="card search-result"
               key={row.id}
               style={{ cursor: 'pointer' }}
               onClick={() => {
@@ -127,7 +135,7 @@ export function Users() {
       {error && <p className="error-text">{error}</p>}
 
       {user && (
-        <div className="card" style={{ marginTop: 16 }}>
+        <div className="card profile-card" style={{ marginTop: 16 }}>
           <div className="card-row">
             <div>
               <strong>{user.companionProfile?.nickname ?? user.customerProfile?.nickname ?? 'Unnamed'}</strong>

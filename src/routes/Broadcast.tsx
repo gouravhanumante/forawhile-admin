@@ -58,13 +58,16 @@ export function Broadcast() {
   }
 
   return (
-    <div>
-      <h2>Broadcast</h2>
-      <p className="muted">
-        A push notification to every device for the chosen audience. There is no undo — preview the recipient count
-        before sending.
-      </p>
-
+    <div className="workflow-page">
+        <div className="page-heading page-heading-compact">
+          <div>
+            <span className="eyebrow">Audience communication</span>
+            <h2>Broadcast</h2>
+            <p className="page-lede">
+              A push notification to every device for the chosen audience. There is no undo - preview the recipient count before sending.
+            </p>
+          </div>
+        </div>
       <div className="field" style={{ maxWidth: 480, marginTop: 16 }}>
         <label htmlFor="broadcast-title">Title</label>
         <input id="broadcast-title" value={title} maxLength={65} onChange={(e) => setTitle(e.target.value)} />
@@ -101,7 +104,7 @@ export function Broadcast() {
       </button>
 
       {preview && (
-        <div className="card" style={{ marginTop: 16, maxWidth: 480 }}>
+        <div className="card preview-card" style={{ marginTop: 16, maxWidth: 480 }}>
           <div className="card-row">
             <div>
               <strong>

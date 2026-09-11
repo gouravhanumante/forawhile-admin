@@ -39,11 +39,17 @@ export function Payouts() {
   }
 
   return (
-    <div>
-      <h2>Companion withdrawals</h2>
-      <p className="muted">
+    <div className="queue-page">
+      <div className="page-heading page-heading-compact">
+        <div>
+          <span className="eyebrow">Money operations</span>
+          <h2>Companion withdrawals</h2>
+          <p className="page-lede">
         Manual UPI payouts — send the amount to the UPI ID shown, then mark it paid here. No payout API is called.
-      </p>
+          </p>
+        </div>
+      </div>
+      <div className="queue-toolbar">
       <div className="field" style={{ maxWidth: 200 }}>
         <label htmlFor="status">Status</label>
         <select id="status" value={status} onChange={(e) => setStatus(e.target.value as PayoutStatus)}>
@@ -54,10 +60,11 @@ export function Payouts() {
           ))}
         </select>
       </div>
+      </div>
       {error && <p className="error-text">{error}</p>}
       {rows.length === 0 && <p className="muted">Nothing here.</p>}
       {rows.map((row) => (
-        <div className="card" key={row.id}>
+        <div className="card review-card payout-card" key={row.id}>
           <div className="card-row">
             <div>
               <strong>{row.companion.nickname ?? 'Unnamed'}</strong>{' '}
@@ -82,7 +89,7 @@ export function Payouts() {
             </div>
           </div>
           {row.status === 'PENDING' && (
-            <div style={{ marginTop: 12 }}>
+            <div className="decision-bar">
               <div className="field">
                 <label htmlFor={`note-${row.id}`}>Note (e.g. UTR reference, or reason for rejecting)</label>
                 <textarea

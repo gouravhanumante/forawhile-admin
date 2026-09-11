@@ -14,10 +14,17 @@ export function AuditLog() {
   }, []);
 
   return (
-    <div>
-      <h2>Audit log</h2>
+    <div className="audit-page">
+      <div className="page-heading page-heading-compact">
+        <div>
+          <span className="eyebrow">Accountability</span>
+          <h2>Audit log</h2>
+          <p className="page-lede">Trace administrative decisions, targets, reasons, and actors.</p>
+        </div>
+        <span className="queue-count">Latest {entries.length} events</span>
+      </div>
       {error && <p className="error-text">{error}</p>}
-      <table>
+      <div className="table-wrap"><table>
         <thead>
           <tr>
             <th>When</th>
@@ -40,7 +47,7 @@ export function AuditLog() {
             </tr>
           ))}
         </tbody>
-      </table>
+      </table></div>
     </div>
   );
 }

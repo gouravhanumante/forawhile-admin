@@ -38,15 +38,22 @@ export function Settings() {
   }
 
   return (
-    <div>
-      <h2>Business settings</h2>
-      <div className="card-row">
+    <div className="settings-page">
+      <div className="page-heading page-heading-compact">
+        <div>
+          <span className="eyebrow">Configuration</span>
+          <h2>Business settings</h2>
+          <p className="page-lede">Tune marketplace behavior for the selected environment.</p>
+        </div>
+      </div>
+      <div className="settings-toolbar">
         <p className="muted">Draft values affect the selected {apiClient.environment()} environment only. Secrets and provider settings stay in deployment configuration.</p>
         <button className="btn btn-primary" disabled={isBusy || !settings} onClick={() => void publish()}>
           {isBusy ? 'Publishing...' : 'Save and go live'}
         </button>
       </div>
       {error && <p className="error-text">{error}</p>}
+      <div className="settings-matrix">
       {settings?.map((setting) => (
         <div className="setting-row" key={setting.key}>
           <div className="setting-info">
@@ -88,6 +95,7 @@ export function Settings() {
           </div>
         </div>
       ))}
+      </div>
     </div>
   );
 }

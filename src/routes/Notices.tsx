@@ -112,13 +112,18 @@ export function Notices() {
   }
 
   return (
-    <div>
-      <h2>Notices</h2>
-      <p className="muted">
+    <div className="crud-page">
+      <div className="page-heading page-heading-compact">
+        <div>
+          <span className="eyebrow">In-app communication</span>
+          <h2>Notices</h2>
+          <p className="page-lede">
         Maintenance warnings and announcements shown inside the app. A maintenance notice stays on screen until it's
         turned off; an announcement can be dismissed by the person reading it. Only active notices are shown, and
         each reaches everyone, customers only, or companions only.
-      </p>
+          </p>
+        </div>
+      </div>
 
       {error && <p className="error-text">{error}</p>}
 
@@ -199,7 +204,7 @@ export function Notices() {
       )}
 
       {notices && (
-        <div style={{ marginTop: 16 }}>
+        <div className="crud-list" style={{ marginTop: 16 }}>
           {notices.map((notice) => (
             <div className="card" key={notice.id} style={{ marginTop: 8 }}>
               <div className="card-row">

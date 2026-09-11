@@ -157,9 +157,14 @@ export function Catalog() {
   }
 
   return (
-    <div>
-      <h2>Catalog</h2>
-      <p className="muted">Activities and package suggestions used by companions.</p>
+    <div className="crud-page">
+      <div className="page-heading page-heading-compact">
+        <div>
+          <span className="eyebrow">Marketplace configuration</span>
+          <h2>Catalog</h2>
+          <p className="page-lede">Activities and package suggestions used by companions.</p>
+        </div>
+      </div>
 
       {error && <p className="error-text">{error}</p>}
 

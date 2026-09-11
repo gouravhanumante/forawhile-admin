@@ -36,8 +36,16 @@ export function VerificationQueue() {
   }
 
   return (
-    <div>
-      <h2>Verification requests</h2>
+    <div className="queue-page">
+      <div className="page-heading page-heading-compact">
+        <div>
+          <span className="eyebrow">Review queue</span>
+          <h2>Companion verification</h2>
+          <p className="page-lede">Compare identity evidence and make a clear, auditable decision.</p>
+        </div>
+        <span className="queue-count">{requests.length} {status.toLowerCase()}</span>
+      </div>
+      <div className="queue-toolbar">
       <div className="field" style={{ maxWidth: 200 }}>
         <label htmlFor="status">Status</label>
         <select id="status" value={status} onChange={(e) => setStatus(e.target.value as VerificationStatus)}>
@@ -48,10 +56,11 @@ export function VerificationQueue() {
           ))}
         </select>
       </div>
+      </div>
       {error && <p className="error-text">{error}</p>}
       {requests.length === 0 && <p className="muted">Nothing here.</p>}
       {requests.map((req) => (
-        <div className="card" key={req.id}>
+        <div className="card review-card" key={req.id}>
           <div className="card-row">
             <div>
               <strong>{req.companion.nickname ?? 'Unnamed'}</strong>{' '}
@@ -95,7 +104,7 @@ export function VerificationQueue() {
             </div>
           </div>
           {req.status === 'PENDING' && (
-            <div style={{ marginTop: 12 }}>
+            <div className="decision-bar">
               <div className="field">
                 <label htmlFor={`note-${req.id}`}>Note (shown to the companion on rejection)</label>
                 <textarea

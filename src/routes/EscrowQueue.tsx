@@ -35,12 +35,19 @@ export function EscrowQueue() {
   }
 
   return (
-    <div>
-      <h2>Escrow — completed, awaiting release</h2>
+    <div className="queue-page">
+      <div className="page-heading page-heading-compact">
+        <div>
+          <span className="eyebrow">Money operations</span>
+          <h2>Escrow release</h2>
+          <p className="page-lede">Completed outings with funds ready for a controlled release.</p>
+        </div>
+        <span className="queue-count">{rows.length} awaiting release</span>
+      </div>
       {error && <p className="error-text">{error}</p>}
       {rows.length === 0 && <p className="muted">Nothing here.</p>}
       {rows.map((row) => (
-        <div className="card" key={row.bookingId}>
+        <div className="card review-card payout-card" key={row.bookingId}>
           <div className="card-row">
             <div>
               <strong>{row.packageTitle}</strong>
