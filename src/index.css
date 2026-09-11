@@ -212,7 +212,8 @@ th, td { padding: var(--s-smd) var(--s-sm); border-bottom: 1px solid var(--borde
 .ds-row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-smd); }
 .ds-stack { display: flex; flex-direction: column; gap: var(--s-smd); max-width: 420px; }
 .ds-type-meta { display: block; color: var(--text-muted); font-size: 12px; }
-.ds-token { text-align: center; }
+/* Swatches vary in height, so tokens share a baseline to stop the labels colliding. */
+.ds-token { min-width: 72px; text-align: center; align-self: flex-end; }
 .ds-token i { display: block; margin: 0 auto var(--s-sm); background: var(--primary); border-radius: 2px; }
 .ds-token b { display: block; font-size: 13px; font-weight: 600; }
 .ds-token span { font-size: 12px; color: var(--text-muted); }
