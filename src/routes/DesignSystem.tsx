@@ -77,27 +77,31 @@ export function DesignSystem() {
         </div>
       </div>
 
+      <div className="ds-switch" role="group" aria-label="Surface">
+        {(['Admin console', 'Mobile app'] as Surface[]).map((option) => (
+          <button
+            key={option}
+            className={surface === option ? 'selected' : undefined}
+            aria-pressed={surface === option}
+            onClick={() => setSurface(option)}
+          >
+            {option}
+          </button>
+        ))}
+      </div>
+
       <div className="queue-toolbar">
-        <div className="ds-row" style={{ gap: 16 }}>
-          <div className="field" style={{ minWidth: 200, marginBottom: 8 }}>
-            <label htmlFor="ds-surface">Surface</label>
-            <select id="ds-surface" value={surface} onChange={(e) => setSurface(e.target.value as Surface)}>
-              <option>Admin console</option>
-              <option>Mobile app</option>
+        <div className="field" style={{ minWidth: 200, marginBottom: 8 }}>
+          <label htmlFor="ds-section">Section</label>
+          {isApp ? (
+            <select id="ds-section" value={appActive} onChange={(e) => setAppActive(e.target.value as AppSection)}>
+              {APP_SECTIONS.map((section) => <option key={section} value={section}>{section}</option>)}
             </select>
-          </div>
-          <div className="field" style={{ minWidth: 200, marginBottom: 8 }}>
-            <label htmlFor="ds-section">Section</label>
-            {isApp ? (
-              <select id="ds-section" value={appActive} onChange={(e) => setAppActive(e.target.value as AppSection)}>
-                {APP_SECTIONS.map((section) => <option key={section} value={section}>{section}</option>)}
-              </select>
-            ) : (
-              <select id="ds-section" value={active} onChange={(e) => setActive(e.target.value as Section)}>
-                {SECTIONS.map((section) => <option key={section} value={section}>{section}</option>)}
-              </select>
-            )}
-          </div>
+          ) : (
+            <select id="ds-section" value={active} onChange={(e) => setActive(e.target.value as Section)}>
+              {SECTIONS.map((section) => <option key={section} value={section}>{section}</option>)}
+            </select>
+          )}
         </div>
       </div>
 

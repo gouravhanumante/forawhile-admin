@@ -218,6 +218,11 @@ th, td { padding: var(--s-smd) var(--s-sm); border-bottom: 1px solid var(--borde
 .ds-token b { display: block; font-size: 13px; font-weight: 600; }
 .ds-token span { font-size: 12px; color: var(--text-muted); }
 
+/* Two mutually exclusive views of one page, so it is a switch rather than another dropdown. */
+.ds-switch { display: inline-flex; gap: var(--s-xs); padding: var(--s-xs); border-radius: 999px; background: var(--surface-high); }
+.ds-switch button { min-height: 40px; padding: 0 var(--s-md); border: 0; border-radius: 999px; background: none; color: var(--text-muted); font-size: 14px; font-weight: 600; }
+.ds-switch button.selected { background: var(--surface); color: var(--text); }
+
 /* App specimens are phone-width, because a component's proportions are part of its design. */
 .ds-phone { display: flex; flex-direction: column; gap: var(--s-smd); max-width: 360px; }
 .ds-phone-row { flex-direction: row; flex-wrap: wrap; align-items: center; }
@@ -240,7 +245,11 @@ th, td { padding: var(--s-smd) var(--s-sm); border-bottom: 1px solid var(--borde
   .app-shell { display: block; }
   .sidebar { width: 100%; border-right: none; padding: var(--s-md); }
   .brand-lockup { margin-bottom: var(--s-md); }
-  .sidebar a { display: inline-block; margin: 2px 2px 0 0; }
+  /* Wrapping thirteen links cost most of a phone screen, so the nav scrolls sideways instead. */
+  .sidebar-links { display: flex; gap: var(--s-md); overflow-x: auto; padding-bottom: var(--s-xs); }
+  .nav-section { display: flex; align-items: center; gap: var(--s-xs); margin-bottom: 0; }
+  .nav-section-label { margin: 0 var(--s-xs) 0 0 !important; white-space: nowrap; }
+  .sidebar a { display: block; margin: 0; white-space: nowrap; }
   .sidebar .logout { margin-top: var(--s-smd); }
   .content { padding: 0 var(--s-md) var(--s-lg); }
   .page-heading { align-items: flex-start; flex-direction: column; padding: var(--s-lg) 0 var(--s-md); }
