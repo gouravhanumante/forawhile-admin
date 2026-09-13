@@ -94,20 +94,42 @@ export interface BookingCoordinationEvidence {
   }>;
 }
 
+export interface NoShowSignal {
+  text: string;
+  leans: 'CLAIM' | 'RESPONSE' | 'NEITHER';
+  weight: number;
+}
+
 export interface PendingNoShowClaim {
   bookingId: string;
   reporterId: string;
+  accusedId: string;
   reason: string | null;
   locationStatus: 'CAPTURED' | 'UNAVAILABLE' | 'DECLINED';
   latitude: number | null;
   longitude: number | null;
   accuracyMeters: number | null;
   createdAt: string;
+  responseText: string | null;
+  responseLocationStatus: 'CAPTURED' | 'UNAVAILABLE' | 'DECLINED' | null;
+  responseLatitude: number | null;
+  responseLongitude: number | null;
+  responseAccuracyMeters: number | null;
+  respondedAt: string | null;
+  reporter: { fraudStrikes: number };
+  signals: NoShowSignal[];
+  /** Advisory. 50 means the evidence does not lean; it never decides anything. */
+  claimStrength: number;
   booking: {
     packageTitle: string;
     scheduledStart: string;
+    durationMinutes: number;
     meetingArea: string;
     status: string;
+    customerId: string;
+    companionId: string;
+    checkIns: { userId: string; latitude: number; longitude: number; createdAt: string }[];
+    messages: { senderId: string; text: string; createdAt: string }[];
     customer: { customerProfile: { nickname: string } | null };
     companion: { companionProfile: { nickname: string } | null };
   };
@@ -157,7 +179,7 @@ export const adminApi = {
   stuckRefunds: (): Promise<StuckRefundRow[]> => apiClient.get('/admin/refunds/stuck'),
   resolveStuckRefund: (bookingId: string, note?: string): Promise<unknown> => apiClient.post(`/admin/refunds/${bookingId}/resolve`, { note }),
   pendingNoShowClaims: (): Promise<PendingNoShowClaim[]> => apiClient.get('/admin/no-show-claims/pending'),
-  decideNoShowClaim: (bookingId: string, decision: 'CONFIRMED' | 'DISMISSED', reviewNote: string): Promise<{ bookingId: string; status: string; decision: string }> =>
+  decideNoShowClaim: (bookingId: string, decision: 'CONFIRMED' | 'DISMISSED' | 'REPORTER_ABSENT', reviewNote: string): Promise<{ bookingId: string; status: string; decision: string }> =>
     apiClient.post(`/admin/bookings/${bookingId}/no-show-claim/decision`, { decision, reviewNote }),
   bookingEvidence: (reportId: string): Promise<BookingCoordinationEvidence> =>
     apiClient.get(`/admin/reports/${reportId}/booking-evidence`),
