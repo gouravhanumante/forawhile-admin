@@ -19,6 +19,7 @@ const sections: Array<{ label: string; links: Array<{ to: string; label: string;
       { to: '/users', label: 'Users' },
       { to: '/deleted-accounts', label: 'Deleted accounts' },
       { to: '/escrow', label: 'Escrow' },
+      { to: '/stuck-refunds', label: 'Refunds needing attention' },
       { to: '/payouts', label: 'Payouts' },
     ],
   },

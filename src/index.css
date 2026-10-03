@@ -156,6 +156,18 @@ button { font: inherit; cursor: pointer; }
 .setting-info code { color: var(--text-muted); font-size: 12px; }
 .setting-control { display: flex; align-items: center; gap: var(--s-smd); white-space: nowrap; }
 .setting-control input { width: 112px; }
+.setting-row-copy { grid-template-columns: minmax(0, 1fr); gap: var(--s-smd); align-items: stretch; }
+.setting-row-copy .setting-control { display: grid; gap: var(--s-xs); white-space: normal; }
+.setting-row-copy textarea { min-height: 144px; resize: vertical; line-height: 1.55; }
+.field-meta { justify-self: end; color: var(--text-muted); font-size: 12px; font-variant-numeric: tabular-nums; }
+
+.switch-control { position: relative; display: inline-flex; align-items: center; flex: 0 0 auto; width: 52px; height: 32px; padding: 3px; border: 1px solid var(--outline); border-radius: 999px; background: var(--surface-high); transition: background 140ms ease, border-color 140ms ease; }
+.switch-control:hover:not(:disabled) { border-color: var(--primary); }
+.switch-control.is-on { border-color: var(--primary); background: var(--primary); }
+.switch-thumb { width: 24px; height: 24px; border-radius: 50%; background: var(--surface); box-shadow: 0 1px 2px rgba(23, 32, 42, 0.18); transition: transform 140ms ease; }
+.switch-control.is-on .switch-thumb { transform: translateX(20px); }
+.switch-control:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
+.switch-control:disabled { opacity: 0.5; cursor: default; }
 
 /* The verified badge is the only fully-rounded element, so pills stay reserved for status. */
 .pill { display: inline-block; padding: var(--s-xs) var(--s-smd); border-radius: 999px; font-size: 11px; font-weight: 600; letter-spacing: 0.08px; }

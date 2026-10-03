@@ -8,6 +8,7 @@ import { CustomerVerificationQueue } from './routes/CustomerVerificationQueue';
 import { ReportsQueue } from './routes/ReportsQueue';
 import { Users } from './routes/Users';
 import { EscrowQueue } from './routes/EscrowQueue';
+import { StuckRefunds } from './routes/StuckRefunds';
 import { DeletedAccounts } from './routes/DeletedAccounts';
 import { Payouts } from './routes/Payouts';
 import { Broadcast } from './routes/Broadcast';
@@ -33,6 +34,7 @@ export default function App() {
           <Route path="/users" element={<Users />} />
           <Route path="/deleted-accounts" element={<DeletedAccounts />} />
           <Route path="/escrow" element={<EscrowQueue />} />
+          <Route path="/stuck-refunds" element={<StuckRefunds />} />
           <Route path="/payouts" element={<Payouts />} />
           <Route path="/broadcast" element={<Broadcast />} />
           <Route path="/notices" element={<Notices />} />

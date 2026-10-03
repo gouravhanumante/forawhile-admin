@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { ApiError, apiClient } from '../api/client';
 import { settingsApi, type BusinessSetting } from '../api/settings';
+import { Switch } from '../components/Switch';
 
 export function Settings() {
   const [settings, setSettings] = useState<BusinessSetting[] | null>(null);
@@ -64,13 +65,12 @@ export function Settings() {
           <div className="setting-control">
             {setting.min === 0 && setting.max === 1 ? (
               <>
-                <button
-                  className={`btn ${setting.value === 1 ? 'btn-danger' : 'btn-primary'}`}
+                <Switch
+                  checked={setting.value === 1}
+                  label={setting.label}
                   disabled={isBusy}
-                  onClick={() => setSettings((current) => current?.map((item) => item.key === setting.key ? { ...item, value: item.value === 1 ? 0 : 1 } : item) ?? null)}
-                >
-                  {setting.value === 1 ? 'Turn off' : 'Turn on'}
-                </button>
+                  onChange={(checked) => setSettings((current) => current?.map((item) => item.key === setting.key ? { ...item, value: checked ? 1 : 0 } : item) ?? null)}
+                />
                 <span className={`pill pill-${setting.value === 1 ? 'positive' : 'negative'}`}>
                   {setting.value === 1 ? 'On' : 'Off'}
                 </span>

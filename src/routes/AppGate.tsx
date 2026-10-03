@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { ApiError, apiClient } from '../api/client';
 import { appGateApi, type AppGateState } from '../api/appGate';
+import { Switch } from '../components/Switch';
 
 // Must match the app's default copy (core/resources strings_app.xml: app_maintenance_*).
 const DEFAULT_TITLE = "We'll be right back";
@@ -114,13 +115,12 @@ export function AppGate() {
               </span>
             </div>
             <div className="setting-control">
-              <button
-                className={`btn ${form.maintenanceEnabled ? 'btn-danger' : 'btn-primary'}`}
+              <Switch
+                checked={form.maintenanceEnabled}
+                label="Maintenance mode"
                 disabled={isBusy}
-                onClick={() => setForm({ ...form, maintenanceEnabled: !form.maintenanceEnabled })}
-              >
-                {form.maintenanceEnabled ? 'Turn off' : 'Turn on'}
-              </button>
+                onChange={(checked) => setForm({ ...form, maintenanceEnabled: checked })}
+              />
               <span className={`pill pill-${live.maintenanceEnabled ? 'negative' : 'positive'}`}>
                 {live.maintenanceEnabled ? 'Live: app blocked' : 'Live: app open'}
               </span>
@@ -144,7 +144,7 @@ export function AppGate() {
             </div>
           </div>
 
-          <div className="setting-row">
+          <div className="setting-row setting-row-copy">
             <div className="setting-info">
               <strong>Maintenance message</strong>
               <span className="muted">Leave blank to use the app's default. Up to 200 characters.</span>
@@ -154,11 +154,12 @@ export function AppGate() {
                 aria-label="Maintenance message"
                 value={form.maintenanceMessage}
                 maxLength={200}
-                rows={3}
+                rows={5}
                 placeholder={DEFAULT_MESSAGE}
                 disabled={isBusy}
                 onChange={(event) => setForm({ ...form, maintenanceMessage: event.target.value })}
               />
+              <span className="field-meta" aria-live="polite">{form.maintenanceMessage.length}/200 characters</span>
             </div>
           </div>
 
