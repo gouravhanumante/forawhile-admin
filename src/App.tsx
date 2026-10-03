@@ -15,6 +15,7 @@ import { Notices } from './routes/Notices';
 import { AuditLog } from './routes/AuditLog';
 import { Catalog } from './routes/Catalog';
 import { Settings } from './routes/Settings';
+import { AppGate } from './routes/AppGate';
 import { NoShowClaims } from './routes/NoShowClaims';
 import { DesignSystem } from './routes/DesignSystem';
 
@@ -37,6 +38,7 @@ export default function App() {
           <Route path="/notices" element={<Notices />} />
           <Route path="/catalog" element={<Catalog />} />
           <Route path="/settings" element={<Settings />} />
+          <Route path="/app-gate" element={<AppGate />} />
           <Route path="/audit-log" element={<AuditLog />} />
           <Route path="/design-system" element={<DesignSystem />} />
         </Route>
