@@ -51,6 +51,15 @@ export interface PendingEscrowRow {
   companionNickname: string | null;
 }
 
+export interface DeletedAccountRow {
+  userId: string;
+  phone: string;
+  cancellationStrikes: number;
+  fraudStrikes: number;
+  wasSuspended: boolean;
+  deletedAt: string;
+}
+
 export interface StuckRefundRow {
   paymentId: string;
   bookingId: string;
@@ -176,6 +185,7 @@ export const adminApi = {
     apiClient.post(`/admin/users/${id}/unsuspend`, { reason }),
   auditLogs: (limit = 50): Promise<AuditLogEntry[]> => apiClient.get(`/admin/audit-logs?limit=${limit}`),
   pendingEscrow: (): Promise<PendingEscrowRow[]> => apiClient.get('/admin/escrow/pending'),
+  deletedAccounts: (): Promise<DeletedAccountRow[]> => apiClient.get('/admin/deleted-accounts'),
   stuckRefunds: (): Promise<StuckRefundRow[]> => apiClient.get('/admin/refunds/stuck'),
   resolveStuckRefund: (bookingId: string, note?: string): Promise<unknown> => apiClient.post(`/admin/refunds/${bookingId}/resolve`, { note }),
   pendingNoShowClaims: (): Promise<PendingNoShowClaim[]> => apiClient.get('/admin/no-show-claims/pending'),
