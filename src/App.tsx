@@ -16,6 +16,7 @@ import { Notices } from './routes/Notices';
 import { AuditLog } from './routes/AuditLog';
 import { Catalog } from './routes/Catalog';
 import { Settings } from './routes/Settings';
+import { Countries } from './routes/Countries';
 import { AppGate } from './routes/AppGate';
 import { NoShowClaims } from './routes/NoShowClaims';
 import { SafetyAlerts } from './routes/SafetyAlerts';
@@ -42,6 +43,7 @@ export default function App() {
           <Route path="/notices" element={<Notices />} />
           <Route path="/catalog" element={<Catalog />} />
           <Route path="/settings" element={<Settings />} />
+          <Route path="/countries" element={<Countries />} />
           <Route path="/app-gate" element={<AppGate />} />
           <Route path="/audit-log" element={<AuditLog />} />
           <Route path="/design-system" element={<DesignSystem />} />

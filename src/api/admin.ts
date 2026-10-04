@@ -46,7 +46,8 @@ export interface AuditLogEntry {
 export interface PendingEscrowRow {
   bookingId: string;
   packageTitle: string;
-  priceINR: number;
+  priceMinor: number;
+  currency: string;
   amountMinor: number;
   scheduledStart: string;
   customerNickname: string | null;

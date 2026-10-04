@@ -2,10 +2,7 @@ import { useEffect, useState } from 'react';
 import { adminApi, type PendingEscrowRow } from '../api/admin';
 import { paymentApi } from '../api/payment';
 import { ApiError } from '../api/client';
-
-function formatRupees(paise: number): string {
-  return `₹${(paise / 100).toFixed(2)}`;
-}
+import { formatMinor } from '../format/money';
 
 export function EscrowQueue() {
   const [rows, setRows] = useState<PendingEscrowRow[]>([]);
@@ -57,7 +54,7 @@ export function EscrowQueue() {
               </div>
             </div>
             <div style={{ textAlign: 'right' }}>
-              <div>{formatRupees(row.amountMinor)}</div>
+              <div>{formatMinor(row.amountMinor, row.currency)}</div>
               <button className="btn btn-primary" disabled={busyId === row.bookingId} onClick={() => void release(row.bookingId)}>
                 Release
               </button>

@@ -31,6 +31,7 @@ const sections: Array<{ label: string; links: Array<{ to: string; label: string;
       { to: '/notices', label: 'Notices' },
       { to: '/catalog', label: 'Catalog' },
       { to: '/settings', label: 'Business settings' },
+      { to: '/countries', label: 'Countries' },
       { to: '/app-gate', label: 'Maintenance & updates' },
       { to: '/audit-log', label: 'Audit log' },
       { to: '/design-system', label: 'Design system' },

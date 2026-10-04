@@ -1,4 +1,5 @@
 import { apiClient } from './client';
+import type { CountryCode } from './countries';
 
 // Must match the keys core/designsystem/component/ActivityIcon.kt (app repo) maps to a real
 // glyph — assigning an activity a key not in this list still needs an app release.
@@ -12,7 +13,8 @@ export interface Activity {
   description: string | null;
   defaultTitle: string | null;
   defaultDurationMinutes: number | null;
-  defaultPriceINR: number | null;
+  // Minor units of each country's currency; a country with no entry has no suggestion.
+  defaultPrices: Partial<Record<CountryCode, number>>;
   isActive: boolean;
 }
 
@@ -22,7 +24,8 @@ export interface ActivityInput {
   description?: string;
   defaultTitle?: string;
   defaultDurationMinutes?: number;
-  defaultPriceINR?: number;
+  // null removes that country's suggestion.
+  defaultPrices?: Partial<Record<CountryCode, number | null>>;
 }
 
 export const catalogApi = {

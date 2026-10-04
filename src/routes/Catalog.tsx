@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { ACTIVITY_ICON_KEYS, catalogApi, type Activity, type ActivityIconKey, type ActivityInput } from '../api/catalog';
 import { ApiError } from '../api/client';
+import { COUNTRIES, type CountryCode } from '../api/countries';
+import { currencyDigits, formatMinor } from '../format/money';
 
 const ICON_LABELS: Record<ActivityIconKey, string> = {
   coffee: 'Coffee',
@@ -19,8 +21,11 @@ interface FormState {
   description: string;
   defaultTitle: string;
   defaultDurationMinutes: string;
-  defaultPriceINR: string;
+  // Whole currency units as typed, per country; blank means no suggestion there.
+  defaultPrices: Record<CountryCode, string>;
 }
+
+const BLANK_PRICES = Object.fromEntries(COUNTRIES.map((c) => [c.code, ''])) as Record<CountryCode, string>;
 
 const BLANK_FORM: FormState = {
   name: '',
@@ -28,7 +33,7 @@ const BLANK_FORM: FormState = {
   description: '',
   defaultTitle: '',
   defaultDurationMinutes: '',
-  defaultPriceINR: '',
+  defaultPrices: BLANK_PRICES,
 };
 
 function toInput(form: FormState): ActivityInput {
@@ -38,7 +43,13 @@ function toInput(form: FormState): ActivityInput {
     description: form.description.trim() || undefined,
     defaultTitle: form.defaultTitle.trim() || undefined,
     defaultDurationMinutes: form.defaultDurationMinutes ? Number(form.defaultDurationMinutes) : undefined,
-    defaultPriceINR: form.defaultPriceINR ? Number(form.defaultPriceINR) : undefined,
+    // Sent for every country so clearing a field removes that country's suggestion.
+    defaultPrices: Object.fromEntries(
+      COUNTRIES.map(({ code, currency }) => {
+        const typed = form.defaultPrices[code].trim();
+        return [code, typed ? Math.round(Number(typed) * 10 ** currencyDigits(currency)) : null];
+      }),
+    ),
   };
 }
 
@@ -49,7 +60,12 @@ function toForm(activity: Activity): FormState {
     description: activity.description ?? '',
     defaultTitle: activity.defaultTitle ?? '',
     defaultDurationMinutes: activity.defaultDurationMinutes?.toString() ?? '',
-    defaultPriceINR: activity.defaultPriceINR?.toString() ?? '',
+    defaultPrices: Object.fromEntries(
+      COUNTRIES.map(({ code, currency }) => {
+        const minor = activity.defaultPrices[code];
+        return [code, minor === undefined ? '' : (minor / 10 ** currencyDigits(currency)).toString()];
+      }),
+    ) as Record<CountryCode, string>,
   };
 }
 
@@ -229,16 +245,18 @@ export function Catalog() {
             />
           </div>
 
-          <div className="field">
-            <label htmlFor="activity-default-price">Suggested price (₹)</label>
-            <input
-              id="activity-default-price"
-              type="number"
-              min={1}
-              value={form.defaultPriceINR}
-              onChange={(e) => setForm({ ...form, defaultPriceINR: e.target.value })}
-            />
-          </div>
+          {COUNTRIES.map(({ code, name, currency }) => (
+            <div className="field" key={code}>
+              <label htmlFor={`activity-default-price-${code}`}>Suggested price, {name} ({currency})</label>
+              <input
+                id={`activity-default-price-${code}`}
+                type="number"
+                min={0}
+                value={form.defaultPrices[code]}
+                onChange={(e) => setForm({ ...form, defaultPrices: { ...form.defaultPrices, [code]: e.target.value } })}
+              />
+            </div>
+          ))}
 
           <div className="card-row" style={{ marginTop: 12 }}>
             <button className="btn btn-primary" disabled={isBusy || !form.name.trim()} onClick={() => void submitForm()}>
@@ -283,11 +301,13 @@ export function Catalog() {
                       {ICON_LABELS[(activity.iconKey as ActivityIconKey) ?? 'sparkle'] ?? activity.iconKey}
                       {activity.description ? ` · ${activity.description}` : ''}
                     </div>
-                    {(activity.defaultTitle || activity.defaultDurationMinutes || activity.defaultPriceINR) && (
+                    {(activity.defaultTitle || activity.defaultDurationMinutes || Object.keys(activity.defaultPrices).length > 0) && (
                       <div className="muted">
                         Suggests: {activity.defaultTitle ?? '—'}
                         {activity.defaultDurationMinutes ? ` · ${activity.defaultDurationMinutes} min` : ''}
-                        {activity.defaultPriceINR ? ` · ₹${activity.defaultPriceINR}` : ''}
+                        {COUNTRIES.filter(({ code }) => activity.defaultPrices[code] !== undefined)
+                          .map(({ code, currency }) => ` · ${code} ${formatMinor(activity.defaultPrices[code]!, currency)}`)
+                          .join('')}
                       </div>
                     )}
                   </div>
