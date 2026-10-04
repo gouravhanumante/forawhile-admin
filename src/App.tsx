@@ -18,6 +18,7 @@ import { Catalog } from './routes/Catalog';
 import { Settings } from './routes/Settings';
 import { AppGate } from './routes/AppGate';
 import { NoShowClaims } from './routes/NoShowClaims';
+import { SafetyAlerts } from './routes/SafetyAlerts';
 import { DesignSystem } from './routes/DesignSystem';
 
 export default function App() {
@@ -31,6 +32,7 @@ export default function App() {
           <Route path="/customer-verifications" element={<CustomerVerificationQueue />} />
           <Route path="/reports" element={<ReportsQueue />} />
           <Route path="/no-show-claims" element={<NoShowClaims />} />
+          <Route path="/safety-alerts" element={<SafetyAlerts />} />
           <Route path="/users" element={<Users />} />
           <Route path="/deleted-accounts" element={<DeletedAccounts />} />
           <Route path="/escrow" element={<EscrowQueue />} />

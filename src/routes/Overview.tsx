@@ -30,6 +30,15 @@ export function Overview() {
       {error && <p className="error-text">{error}</p>}
       {overview && (
         <>
+          {(overview.pendingSafetyAlerts ?? 0) > 0 && <section className="attention-panel">
+            <div>
+              <span className="eyebrow">Safety first</span>
+              <h3>SOS review</h3>
+              <p>Outings ended by a companion's SOS. Their payment stays frozen until you rule.</p>
+            </div>
+            <div className="attention-count">{overview.pendingSafetyAlerts}</div>
+            <Link className="btn btn-primary" to="/safety-alerts">Review SOS <span aria-hidden="true">-&gt;</span></Link>
+          </section>}
           <section className="attention-panel">
             <div>
               <span className="eyebrow">Priority queue</span>

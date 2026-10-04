@@ -6,6 +6,8 @@ export interface AdminOverview {
   openReports: number;
   heldPayments: number;
   pendingPayments: number;
+  /** Absent on a backend older than the SOS release. */
+  pendingSafetyAlerts?: number;
 }
 
 export interface SafeUser {
@@ -144,6 +146,50 @@ export interface PendingNoShowClaim {
   };
 }
 
+export type SafetyVerdict = 'GENUINE' | 'UNCLEAR' | 'FALSE';
+
+export interface SettlementPreview {
+  refundPaise: number;
+  payoutPaise: number;
+  commissionPaise: number;
+  penaltyPaise: number;
+}
+
+export interface PendingSafetyAlert {
+  bookingId: string;
+  raisedById: string;
+  locationStatus: 'CAPTURED' | 'UNAVAILABLE' | 'DECLINED';
+  latitude: number | null;
+  longitude: number | null;
+  accuracyMeters: number | null;
+  contactNotifiedAt: string | null;
+  safetyTeamNotifiedAt: string | null;
+  markedSafeAt: string | null;
+  customerNotifiedAt: string | null;
+  responseText: string | null;
+  respondedAt: string | null;
+  createdAt: string;
+  minutesIntoOuting: number;
+  companionHistory: { priorAlerts: number; genuine: number; unclear: number; false: number; fraudStrikes: number };
+  customerHistory: { otherCompanionsRaisedSos: number; upheldSos: number; peopleWhoFiledSafetyReports: number };
+  outcomes: Record<SafetyVerdict, SettlementPreview>;
+  booking: {
+    packageTitle: string;
+    scheduledStart: string;
+    durationMinutes: number;
+    meetingArea: string;
+    meetingLatitude: number | null;
+    meetingLongitude: number | null;
+    customerId: string;
+    companionId: string;
+    payment: { amountPaise: number; status: string } | null;
+    checkIns: { userId: string; latitude: number; longitude: number; createdAt: string }[];
+    messages: { senderId: string; text: string; createdAt: string }[];
+    customer: { phone: string; customerProfile: { nickname: string } | null };
+    companion: { phone: string; companionProfile: { nickname: string } | null };
+  };
+}
+
 export interface AdminBookingSummary {
   id: string;
   packageTitle: string;
@@ -191,6 +237,9 @@ export const adminApi = {
   pendingNoShowClaims: (): Promise<PendingNoShowClaim[]> => apiClient.get('/admin/no-show-claims/pending'),
   decideNoShowClaim: (bookingId: string, decision: 'CONFIRMED' | 'DISMISSED' | 'REPORTER_ABSENT', reviewNote: string): Promise<{ bookingId: string; status: string; decision: string }> =>
     apiClient.post(`/admin/bookings/${bookingId}/no-show-claim/decision`, { decision, reviewNote }),
+  pendingSafetyAlerts: (): Promise<PendingSafetyAlert[]> => apiClient.get('/admin/safety-alerts/pending'),
+  decideSafetyAlert: (bookingId: string, decision: SafetyVerdict, reviewNote: string): Promise<{ bookingId: string; status: string; decision: string }> =>
+    apiClient.post(`/admin/bookings/${bookingId}/safety-alert/decision`, { decision, reviewNote }),
   bookingEvidence: (reportId: string): Promise<BookingCoordinationEvidence> =>
     apiClient.get(`/admin/reports/${reportId}/booking-evidence`),
 };
