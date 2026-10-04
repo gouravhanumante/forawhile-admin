@@ -47,7 +47,7 @@ export interface PendingEscrowRow {
   bookingId: string;
   packageTitle: string;
   priceINR: number;
-  amountPaise: number;
+  amountMinor: number;
   scheduledStart: string;
   customerNickname: string | null;
   companionNickname: string | null;
@@ -68,7 +68,7 @@ export interface StuckRefundRow {
   packageTitle: string;
   scheduledStart: string;
   bookingStatus: string;
-  amountPaise: number;
+  amountMinor: number;
   state: 'NEEDS_ACTION' | 'PENDING_CONFIRMATION';
   updatedAt: string;
   customerNickname: string | null;
@@ -149,10 +149,10 @@ export interface PendingNoShowClaim {
 export type SafetyVerdict = 'GENUINE' | 'UNCLEAR' | 'FALSE';
 
 export interface SettlementPreview {
-  refundPaise: number;
-  payoutPaise: number;
-  commissionPaise: number;
-  penaltyPaise: number;
+  refundMinor: number;
+  payoutMinor: number;
+  commissionMinor: number;
+  penaltyMinor: number;
 }
 
 export interface PendingSafetyAlert {
@@ -182,7 +182,7 @@ export interface PendingSafetyAlert {
     meetingLongitude: number | null;
     customerId: string;
     companionId: string;
-    payment: { amountPaise: number; status: string } | null;
+    payment: { amountMinor: number; status: string } | null;
     checkIns: { userId: string; latitude: number; longitude: number; createdAt: string }[];
     messages: { senderId: string; text: string; createdAt: string }[];
     customer: { phone: string; customerProfile: { nickname: string } | null };

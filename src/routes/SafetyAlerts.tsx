@@ -11,8 +11,8 @@ const verdicts: Array<{ verdict: SafetyVerdict; label: string; consequence: stri
 ];
 
 function split(preview: SettlementPreview) {
-  const parts = [`companion ${rupees(preview.payoutPaise)}`, `us ${rupees(preview.commissionPaise)}`, `refund ${rupees(preview.refundPaise)}`];
-  if (preview.penaltyPaise > 0) parts.push(`penalty ${rupees(preview.penaltyPaise)}`);
+  const parts = [`companion ${rupees(preview.payoutMinor)}`, `us ${rupees(preview.commissionMinor)}`, `refund ${rupees(preview.refundMinor)}`];
+  if (preview.penaltyMinor > 0) parts.push(`penalty ${rupees(preview.penaltyMinor)}`);
   return parts.join(' · ');
 }
 

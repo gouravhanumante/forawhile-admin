@@ -4,9 +4,9 @@ export interface PaymentView {
   id: string;
   bookingId: string;
   provider: string;
-  amountPaise: number;
-  commissionPaise: number;
-  payoutPaise: number;
+  amountMinor: number;
+  commissionMinor: number;
+  payoutMinor: number;
   currency: string;
   status: string;
 }

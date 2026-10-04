@@ -80,7 +80,7 @@ export function Payouts() {
               <div className="muted">Requested {new Date(row.createdAt).toLocaleString()}</div>
             </div>
             <div style={{ textAlign: 'right' }}>
-              <div>{formatRupees(row.amountPaise)}</div>
+              <div>{formatRupees(row.amountMinor)}</div>
               <span
                 className={`pill pill-${row.status === 'PENDING' ? 'pending' : row.status === 'PAID' ? 'positive' : 'negative'}`}
               >

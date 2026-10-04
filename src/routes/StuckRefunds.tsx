@@ -57,7 +57,7 @@ export function StuckRefunds() {
               </div>
             </div>
             <div style={{ textAlign: 'right' }}>
-              <div>{formatRupees(row.amountPaise)}</div>
+              <div>{formatRupees(row.amountMinor)}</div>
               <span className={`pill pill-${row.state === 'NEEDS_ACTION' ? 'negative' : 'pending'}`}>
                 {row.state === 'NEEDS_ACTION' ? 'Needs action' : 'Awaiting bank confirmation'}
               </span>

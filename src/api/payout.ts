@@ -5,7 +5,7 @@ export type PayoutStatus = 'PENDING' | 'PAID' | 'REJECTED';
 export interface PayoutView {
   id: string;
   companionId: string;
-  amountPaise: number;
+  amountMinor: number;
   upiId: string;
   status: PayoutStatus;
   note: string | null;

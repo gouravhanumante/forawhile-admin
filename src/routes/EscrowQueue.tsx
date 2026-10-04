@@ -57,7 +57,7 @@ export function EscrowQueue() {
               </div>
             </div>
             <div style={{ textAlign: 'right' }}>
-              <div>{formatRupees(row.amountPaise)}</div>
+              <div>{formatRupees(row.amountMinor)}</div>
               <button className="btn btn-primary" disabled={busyId === row.bookingId} onClick={() => void release(row.bookingId)}>
                 Release
               </button>
