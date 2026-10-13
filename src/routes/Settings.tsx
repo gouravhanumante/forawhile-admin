@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { ApiError, apiClient } from '../api/client';
 import { settingsApi, type BusinessSetting } from '../api/settings';
 import { Switch } from '../components/Switch';
+import { UpgradeVisibilityControl, isUpgradeVisibilitySetting } from '../components/UpgradeVisibilityControl';
 
 export function Settings() {
   const [settings, setSettings] = useState<BusinessSetting[] | null>(null);
@@ -55,7 +56,17 @@ export function Settings() {
       </div>
       {error && <p className="error-text">{error}</p>}
       <div className="settings-matrix">
-      {settings?.map((setting) => (
+      {settings && (
+        <UpgradeVisibilityControl
+          settings={settings.filter(isUpgradeVisibilitySetting)}
+          disabled={isBusy}
+          // Take only the upgrade rows from the reply, so unsaved edits elsewhere on the page survive.
+          onSaved={(updated) => setSettings((current) => current?.map((item) =>
+            isUpgradeVisibilitySetting(item) ? updated.find((fresh) => fresh.key === item.key) ?? item : item,
+          ) ?? null)}
+        />
+      )}
+      {settings?.filter((setting) => !isUpgradeVisibilitySetting(setting)).map((setting) => (
         <div className="setting-row" key={setting.key}>
           <div className="setting-info">
             <code>{setting.key}</code>

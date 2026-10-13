@@ -159,6 +159,11 @@ button { font: inherit; cursor: pointer; }
 .setting-row-copy { grid-template-columns: minmax(0, 1fr); gap: var(--s-smd); align-items: stretch; }
 .setting-row-copy .setting-control { display: grid; gap: var(--s-xs); white-space: normal; }
 .setting-row-copy textarea { min-height: 144px; resize: vertical; line-height: 1.55; }
+.platform-pills { display: flex; flex-wrap: wrap; gap: var(--s-xs); margin-top: var(--s-xs); }
+.dialog { width: min(560px, calc(100vw - 2 * var(--s-md))); padding: var(--s-lg); border: 1px solid var(--border); border-radius: var(--r-card); background: var(--surface); color: var(--text); }
+.dialog::backdrop { background: rgba(23, 32, 42, 0.4); }
+.dialog h3 { margin: var(--s-xs) 0; }
+.dialog-actions { display: flex; justify-content: flex-end; gap: var(--s-sm); margin-top: var(--s-md); }
 .field-meta { justify-self: end; color: var(--text-muted); font-size: 12px; font-variant-numeric: tabular-nums; }
 
 .switch-control { position: relative; display: inline-flex; align-items: center; flex: 0 0 auto; width: 52px; height: 32px; padding: 3px; border: 1px solid var(--outline); border-radius: 999px; background: var(--surface-high); transition: background 140ms ease, border-color 140ms ease; }

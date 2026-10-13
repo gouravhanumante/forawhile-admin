@@ -7,6 +7,7 @@ const sections: Array<{ label: string; links: Array<{ to: string; label: string;
   {
     label: 'Review queues',
     links: [
+      { to: '/safety-alerts', label: 'SOS review' },
       { to: '/verifications', label: 'Companion verification' },
       { to: '/customer-verifications', label: 'Booker verification' },
       { to: '/reports', label: 'Reports' },
