@@ -17,6 +17,8 @@ interface FormState {
   name: string;
   iconKey: ActivityIconKey;
   description: string;
+  iosTitle: string;
+  iosSubtitle: string;
   defaultTitle: string;
   defaultDurationMinutes: string;
   defaultPriceINR: string;
@@ -26,6 +28,8 @@ const BLANK_FORM: FormState = {
   name: '',
   iconKey: 'sparkle',
   description: '',
+  iosTitle: '',
+  iosSubtitle: '',
   defaultTitle: '',
   defaultDurationMinutes: '',
   defaultPriceINR: '',
@@ -36,6 +40,8 @@ function toInput(form: FormState): ActivityInput {
     name: form.name.trim(),
     iconKey: form.iconKey,
     description: form.description.trim() || undefined,
+    iosTitle: form.iosTitle.trim() || null,
+    iosSubtitle: form.iosSubtitle.trim() || null,
     defaultTitle: form.defaultTitle.trim() || undefined,
     defaultDurationMinutes: form.defaultDurationMinutes ? Number(form.defaultDurationMinutes) : undefined,
     defaultPriceINR: form.defaultPriceINR ? Number(form.defaultPriceINR) : undefined,
@@ -47,6 +53,8 @@ function toForm(activity: Activity): FormState {
     name: activity.name,
     iconKey: (activity.iconKey as ActivityIconKey) ?? 'sparkle',
     description: activity.description ?? '',
+    iosTitle: activity.iosTitle ?? '',
+    iosSubtitle: activity.iosSubtitle ?? '',
     defaultTitle: activity.defaultTitle ?? '',
     defaultDurationMinutes: activity.defaultDurationMinutes?.toString() ?? '',
     defaultPriceINR: activity.defaultPriceINR?.toString() ?? '',
@@ -209,6 +217,26 @@ export function Catalog() {
           </div>
 
           <div className="field">
+            <label htmlFor="activity-ios-title">iOS title (shown on iPhone instead of the name; blank uses the name)</label>
+            <input
+              id="activity-ios-title"
+              value={form.iosTitle}
+              maxLength={60}
+              onChange={(e) => setForm({ ...form, iosTitle: e.target.value })}
+            />
+          </div>
+
+          <div className="field">
+            <label htmlFor="activity-ios-subtitle">iOS description (blank uses the description)</label>
+            <input
+              id="activity-ios-subtitle"
+              value={form.iosSubtitle}
+              maxLength={300}
+              onChange={(e) => setForm({ ...form, iosSubtitle: e.target.value })}
+            />
+          </div>
+
+          <div className="field">
             <label htmlFor="activity-default-title">Suggested package title</label>
             <input
               id="activity-default-title"
@@ -283,6 +311,12 @@ export function Catalog() {
                       {ICON_LABELS[(activity.iconKey as ActivityIconKey) ?? 'sparkle'] ?? activity.iconKey}
                       {activity.description ? ` · ${activity.description}` : ''}
                     </div>
+                    {activity.iosTitle && (
+                      <div className="muted">
+                        iOS: {activity.iosTitle}
+                        {activity.iosSubtitle ? ` · ${activity.iosSubtitle}` : ''}
+                      </div>
+                    )}
                     {(activity.defaultTitle || activity.defaultDurationMinutes || activity.defaultPriceINR) && (
                       <div className="muted">
                         Suggests: {activity.defaultTitle ?? '—'}

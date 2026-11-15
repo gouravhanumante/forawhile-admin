@@ -10,6 +10,8 @@ export interface Activity {
   name: string;
   iconKey: string;
   description: string | null;
+  iosTitle: string | null;
+  iosSubtitle: string | null;
   defaultTitle: string | null;
   defaultDurationMinutes: number | null;
   defaultPriceINR: number | null;
@@ -20,6 +22,9 @@ export interface ActivityInput {
   name: string;
   iconKey: ActivityIconKey;
   description?: string;
+  // Null clears the iOS wording, so the iOS app falls back to name and description.
+  iosTitle?: string | null;
+  iosSubtitle?: string | null;
   defaultTitle?: string;
   defaultDurationMinutes?: number;
   defaultPriceINR?: number;
